@@ -1,0 +1,37 @@
+#Source: Aaron Mussig a.mussig@uq.edu.au
+
+
+Step 1 - Preparing input data:
+•	Ensure you have one MSA per marker: e.g. PF1234.faa, TF1234.faa.
+•	Remove any genomes from the MSAs which are just gaps (these will be added back in later).
+
+Step 2a - Running Divvier:
+•	divvier -divvy -mincol 4 -divvygap -HMMexact name_of_marker.faa
+o	This is recommended, also try -mincol 8, and -partial instead of -divvy (check the docs).
+o	HMMExact doesn't take much longer than the HMM approx method (about 1hr longer for ar122).
+
+Step 2b - Running BMGE:
+•	bmge name_of_marker.faa -t AA -s FAST -h 0.55 -m BLOSUM30 -i <input alignment> -of <output alignment>  -oh <report file>
+
+
+Step 3a - Create a concatenated MSA using the Divvier outputs:
+•	The order of the concatenated proteins should be in alphabetical order (by GTDB convention)
+•	Add gaps for any genomes which were excluded in 2a.
+
+Step 3b - Create a concatenated MSA using the BMGE outputs:
+•	As above.
+
+Step 4 - Trim the MSAs as per the GTDB-Tk methods:
+•	Similar to how it was done in GTDB (gtdbtk trim_msa). Aaron hasn't made this code public yet 
+
+Notes:
+Divvier documentation: https://github.com/simonwhelan/Divvier/blob/master/DivvierManual.pdf
+BMGE documentation: http://gensoft.pasteur.fr/docs/BMGE/1.12/BMGE_doc.pdf
+
+A few notes:
+•	Divvier filtering makes the MSA very gappy using -divvy, -partial makes it look better. 
+  The GTDB filtering method should take care of it but it's worth running your pipeline on both the -divvy and -partial methods, 
+  mincol 4 is recommended.
+•	Don't input any genes which are just gaps, both of these programs will error and all progress will be lost.
+•	Depending on your input size these can take a LONG TIME, some ar122 markers took 2+ weeks so don't run these in serial! 
+  If you evenly distribute these jobs on every server using the command nice then it will be considerably faster.ssig - a.mussig@uq.edu.au
