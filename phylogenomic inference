@@ -1,0 +1,5 @@
+# FastTree
+# FastTree was executed in multithreaded mode with the WAG+GAMMA parameters
+FastTreeMP -wag -gamma <input alignment>  >  <output tree> 
+
+
