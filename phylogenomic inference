@@ -26,6 +26,7 @@ mpirun.openmpi -np <number of threads>  examl-AVX  -s  <transformed binary input
 # SUPERTREES - ASTRAL
 # Supertrees were calculated from 1) 122 GTDB markers, and 2) from 253 markers which were present in >10% of archaeal genomes and were 
 # extracted from the  PhyloPhlAn dataset (Segata et al., 2013). 
+
 # For the 122 marker set maximum-likelihood (ML) inference was performed for each marker genes using the C10 + PSMF model in IQ-Tree. 
 # For each marker gene, a guide tree was inferred via approximate ML using FastTree v2.1.9  with the WAG model and gamma distributed 
 # rate heterogeneity. A complete ML tree was then inferred using IQ-Tree v 1.6.9 with the C10 + PMSF model with 100 non-parametric 
@@ -35,5 +36,17 @@ FastTree -nosupport -wag -gamma XXXX > XXXX.1248x.wag.g.tree
 iqtree -s XXXX -nt AUTO -m LG+C10+F+G -ft XXXX.1248x.wag.g.tree -pre 18. XXXX c10.pmsf.fasttreeStart
 cat *.treefile > XXX.trees
 astral -i XXX.trees -o XXX.lpp_support.tree -t 1 -s 12345
+
+# For the 253 marker set, we first identified, 400 conserved, single-copy gene orthologues from the PhyloPhlAn data set (Segata et al., 2013) 
+# using PhyloPhlAn v0.99. Markers present in less than 10% of all archaeal genomes were identified and removed resulting in a 
+# final marker set of 253 protein markers. For each marker, multiple-sequence alignment was performed using MAFFT-LINSI v7.221 
+# and the resulting amino acid alignment was filtered using trimAl 1.2rev59, removing columns present in less than half of all taxa 
+# in the alignment. Tree inference was then performed using the same approach as for the arch122 marker set.
+
+mafft-linsi XXXX > XXXX.align
+seqmagick convert --min-ungapped-length 5 --input-format fasta --output-format fasta XXXX.align XXXX.filt 
+# This step ensures that any empty sequences are purged from the alignment before going to tree inference
+trimal -in XXXX.filt -out XXXX.trim -gt 0.5
+
 
 
