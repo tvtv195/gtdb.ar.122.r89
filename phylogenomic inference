@@ -14,3 +14,9 @@ FastTreeMP -wag -gamma <input alignment>  >  <output tree>
 
 iqtree -s  <input alignment>     -nt AUTO   -m LG+C10+F+G  -ft  <starting tree>  -pre  <prefix of output files> 
 
+
+# ExaML
+# ExaMl trees (gamma, JTT) were calculated from 10 different starting trees with random seeds using ExaML version 3.0.20, 
+# whereby the tree with the highest likelihood score was retained: 
+
+mpirun.openmpi -np <number of threads>  examl-AVX  -s  <transformed binary input alignment> -t <starting tree with best likelihood> -m  GAMMA -n  <output prefix> -D
