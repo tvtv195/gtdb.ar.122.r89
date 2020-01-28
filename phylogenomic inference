@@ -1,5 +1,16 @@
 # FastTree
 # FastTree was executed in multithreaded mode with the WAG+GAMMA parameters
+
 FastTreeMP -wag -gamma <input alignment>  >  <output tree> 
 
+
+# IQ-TREE
+# IQ-TREE was executed employing mixture models, since finite mixture models such as C10-C60 (Le et al. 2008), 
+# and a faster approximation of these models known as  “posterior mean site frequency” (PMSF) model (Wang et al., 2018), 
+# both of which are implemented in IQtree, have been proposed to capture the heterogeneity in amino acid preferences at sites. 
+# True C10-C60 trees are computationally more demanding (Table S10), and we therefore opted for the faster approximation based on the 
+# PMSF model. The ar.122.r89 tree was calculated with IQ-TREE v1.6.12 based on the C10 mixture model and a starting tree (-ft), 
+# for which we used the FastTree described above, to invoke the faster PMSF approximation: 
+
+iqtree -s  <input alignment>     -nt AUTO   -m LG+C10+F+G  -ft  <starting tree>  -pre  <prefix of output files> 
 
