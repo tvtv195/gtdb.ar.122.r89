@@ -20,3 +20,20 @@ iqtree -s  <input alignment>     -nt AUTO   -m LG+C10+F+G  -ft  <starting tree> 
 # whereby the tree with the highest likelihood score was retained: 
 
 mpirun.openmpi -np <number of threads>  examl-AVX  -s  <transformed binary input alignment> -t <starting tree with best likelihood> -m  GAMMA -n  <output prefix> -D
+
+
+
+# SUPERTREES - ASTRAL
+# Supertrees were calculated from 1) 122 GTDB markers, and 2) from 253 markers which were present in >10% of archaeal genomes and were 
+# extracted from the  PhyloPhlAn dataset (Segata et al., 2013). 
+# For the 122 marker set maximum-likelihood (ML) inference was performed for each marker genes using the C10 + PSMF model in IQ-Tree. 
+# For each marker gene, a guide tree was inferred via approximate ML using FastTree v2.1.9  with the WAG model and gamma distributed 
+# rate heterogeneity. A complete ML tree was then inferred using IQ-Tree v 1.6.9 with the C10 + PMSF model with 100 non-parametric 
+# bootstrap samplings to assess node support. A consensus tree was constructed using the individual gene trees using ASTRAL v5.6.3.
+
+FastTree -nosupport -wag -gamma XXXX > XXXX.1248x.wag.g.tree
+iqtree -s XXXX -nt AUTO -m LG+C10+F+G -ft XXXX.1248x.wag.g.tree -pre 18. XXXX c10.pmsf.fasttreeStart
+cat *.treefile > XXX.trees
+astral -i XXX.trees -o XXX.lpp_support.tree -t 1 -s 12345
+
+
